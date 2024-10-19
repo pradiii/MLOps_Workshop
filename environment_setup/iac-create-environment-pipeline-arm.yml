@@ -1,8 +1,35 @@
+# pr: none
+# trigger: none
+
+# variables:
+# - group: mlops-wsh-vg
+
+# stages:
+# - stage: 'Dev'
+#   displayName: 'Dev'
+#   jobs:
+#   - job: "Provision_Dev"
+#     displayName: "Provision Dev resources"
+#     pool:
+#       vmImage: 'ubuntu-latest'
+#     timeoutInMinutes: 0
+#     steps:
+#     - task: AzureResourceGroupDeployment@2
+#       inputs:
+#         azureSubscription: '$(AZURE_RM_SVC_CONNECTION)'
+#         action: 'Create Or Update Resource Group'
+#         resourceGroupName: '$(RESOURCE_GROUP)'
+#         location: $(LOCATION)
+#         templateLocation: 'Linked artifact'
+#         csmFile: '$(Build.SourcesDirectory)/environment_setup/cloud-environment.json'
+#         overrideParameters: '-baseName $(BASE_NAME) -location $(LOCATION) -workspace $(WORKSPACE_NAME)'
+#         deploymentMode: 'Incremental'
+#       displayName: 'Deploy OH resources to Azure'
 pr: none
 trigger: none
 
 variables:
-- group: mlops-wsh-vg
+- group: mlops-wsh-vg  # Variable group with your defined variables
 
 stages:
 - stage: 'Dev'
@@ -16,10 +43,10 @@ stages:
     steps:
     - task: AzureResourceGroupDeployment@2
       inputs:
-        azureSubscription: '$(AZURE_RM_SVC_CONNECTION)'
+        azureSubscription: '$(AZURE_RM_SVC_CONNECTION)'  # azure-resource-connection
         action: 'Create Or Update Resource Group'
-        resourceGroupName: '$(RESOURCE_GROUP)'
-        location: $(LOCATION)
+        resourceGroupName: '$(RESOURCE_GROUP)'  # mlops-wsh-rg-1
+        location: $(LOCATION)  # centralus
         templateLocation: 'Linked artifact'
         csmFile: '$(Build.SourcesDirectory)/environment_setup/cloud-environment.json'
         overrideParameters: '-baseName $(BASE_NAME) -location $(LOCATION) -workspace $(WORKSPACE_NAME)'
